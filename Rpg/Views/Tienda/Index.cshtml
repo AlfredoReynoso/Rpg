@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Rpg.Models.cat_items>
+
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comprar/Vender</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container my-4">
+        <h1 class="mb-4">Gestión de Productos</h1>
+        <h2 id="OroDisponible" data-oro="@ViewBag.Oro">Oro disponible: @ViewBag.Oro</h2>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" id="tabMenu" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="comprar-tab" data-bs-toggle="tab" data-bs-target="#comprar" type="button" role="tab" aria-controls="comprar" aria-selected="true">Comprar</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="vender-tab" data-bs-toggle="tab" data-bs-target="#vender" type="button" role="tab" aria-controls="vender" aria-selected="false">Vender</button>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content mt-3" id="tabContent">
+            <!-- Pestaña Comprar -->
+            <div class="tab-pane fade show active" id="comprar" role="tabpanel" aria-labelledby="comprar-tab">
+                <h4>Productos para comprar</h4>
+                @using (Html.BeginForm("Comprar", "Tienda", FormMethod.Post, new { id = "formComprar"}))
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Cantidad</th>
+                                <th>Costo</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aquí insertarás dinámicamente filas de productos -->
+                            @foreach (var item in Model)
+                            {
+                                <tr class="fila-items">
+                                    <td>@Html.DisplayFor(i => item.Nombre)</td>
+                                    <td>@Html.DisplayFor(i => item.Cantidad)</td>
+                                    <td>@Html.DisplayFor(i => item.Costo)</td>
+                                    <td>
+                                        @Html.Hidden("costo", item.Costo, new { @class = "costo-item" }) 
+                                    <button type="submit" name="itemId" value="@item.Id" class="btn btn-primary btn‐comprar">Comprar</button>
+                                </td>
+                            </tr>
+                        }
+
+
+                        </tbody>
+                    </table>
+                }
+
+            </div>
+
+            <!-- Pestaña Vender -->
+            <div class="tab-pane fade" id="vender" role="tabpanel" aria-labelledby="vender-tab">
+                <h4>Productos para vender</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Cantidad en stock</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Aquí insertarás dinámicamente filas de productos para vender -->
+                        <tr>
+                            <td>101</td>
+                            <td>Producto X</td>
+                            <td>Categoría 2</td>
+                            <td>$150</td>
+                            <td>20</td>
+                            <td><button class="btn btn-success btn-sm">Vender</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS (y Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/Tienda.js"></script>
+
+</body>
+
+</html>
